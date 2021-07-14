@@ -1,6 +1,7 @@
 #version 150
 
 #moj_import <fog.glsl>
+#moj_import <crystal_util.glsl>
 
 uniform sampler2D Sampler0;
 
@@ -17,11 +18,6 @@ in vec2 texCoord0;
 in vec2 texCoord1;
 
 out vec4 fragColor;
-
-bool check_crystal(vec4 color) {
-	vec2 d = color.ra - vec2(255.0, 63.0) / 255.0;
-	return dot(d, d) < 0.004;
-}
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0);
