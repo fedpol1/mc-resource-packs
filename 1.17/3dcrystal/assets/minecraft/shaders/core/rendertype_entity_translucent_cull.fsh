@@ -10,8 +10,6 @@ uniform float FogStart;
 uniform float FogEnd;
 uniform vec4 FogColor;
 
-uniform float GameTime;
-
 in float vertexDistance;
 in vec4 vertexColor;
 in vec2 texCoord0;
@@ -21,7 +19,7 @@ out vec4 fragColor;
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0);
-	if(check_crystal(color)) { color = texture(Sampler0, vec2(texCoord0.x + 64.0/1024.0, texCoord0.y)); }
+	if(check_crystal(color)) { color = texture(Sampler0, vec2(texCoord0.x + 64.0/textureSize(Sampler0, 0).x, texCoord0.y)); }
 	color *= vertexColor * ColorModulator;
     if (color.a < 0.1) {
         discard;

@@ -26,8 +26,8 @@ bool check_crystal(vec4 color) {
 	return dot(d, d) < EPSILON;
 }
 
-bool check_hand(vec3 light0, vec3 normal) {
-	return getWorldMat(light0, vec3(0.0), normal, true)[1][1] < -EPSILON;
+bool check_hand(vec3 normal) {
+	return abs(normal) == 0.0;
 }
 
 bool check_inventory(mat4 proj) {

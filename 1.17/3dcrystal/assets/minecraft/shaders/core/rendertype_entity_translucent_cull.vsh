@@ -27,7 +27,6 @@ out vec4 vertexColor;
 out vec2 texCoord0;
 out vec2 texCoord1;
 out vec2 texCoord2;
-out vec3 pos;
 
 void main() {
 
@@ -43,7 +42,7 @@ void main() {
 		float model_scale = 0.125;
 		float translation_scale = 0.25;
 		
-		if(check_inventory(ProjMat) || check_hand(Light0_Direction, Normal)) { 
+		if(check_inventory(ProjMat) || check_hand(Normal)) { 
 			model_scale = 0.25 + 0.0625*float(check_inventory(ProjMat)) + 2.25*float(check_inventory(ProjMat) && check_inventory_hand(Light0_Direction));
 			translation_scale = model_scale * 2.0 * (-2.0 * float(check_inventory_hand(Light0_Direction)) + 1.0);
 			wm = translate(vec3(0.0));
