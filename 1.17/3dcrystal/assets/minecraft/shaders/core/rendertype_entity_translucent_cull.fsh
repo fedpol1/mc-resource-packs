@@ -19,7 +19,7 @@ out vec4 fragColor;
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0);
-	if(check_crystal(color)) { color = texture(Sampler0, vec2(texCoord0.x + 64.0/textureSize(Sampler0, 0).x, texCoord0.y)); }
+	color = texture(Sampler0, vec2(texCoord0.x + 64.0/textureSize(Sampler0, 0).x * float(check_crystal(color)), texCoord0.y));
 	color *= vertexColor * ColorModulator;
     if (color.a < 0.1) {
         discard;

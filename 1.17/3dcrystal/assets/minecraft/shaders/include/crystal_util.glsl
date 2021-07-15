@@ -8,10 +8,13 @@ bool isNether(vec3 light0, vec3 light1) {
     return abs(light0) == abs(light1);
 }
 
-mat4 getWorldMat(vec3 light0, vec3 light1, vec3 normal, bool useNormal) {
-	vec3 b = light1;
-	vec3 B = LIGHT1_DIRECTION;
-	if(isNether(light0, light1) || useNormal) { b = normal; B = vec3(0.0,-1.0,0.0); }
+mat4 getWorldMat(vec3 light0, vec3 light1, vec3 normal) {
+	bool n = isNether(light0, light1);
+	vec3 b = light1 * float(!n) // if not nether, then use light1
+		   + normal * float(n) // otherwise use normal
+		   + vec3(1.0) * float(n && abs(normal) == 0.0); // edge case if normal is 0 vector
+	vec3 B = LIGHT1_DIRECTION * float(!n) // if not nether, then use light1
+	       + vec3(0.0,-1.0 * float(n),0.0); // otherwise use down
     mat3 V = mat3(normalize(LIGHT0_DIRECTION), normalize(B), normalize(cross(LIGHT0_DIRECTION, B)));
     mat3 W = mat3(normalize(light0), normalize(b), normalize(cross(light0, b)));
 	mat3 wm = W * inverse(V);
@@ -34,8 +37,8 @@ bool check_inventory(mat4 proj) {
 	return proj[0][0] < 1.5/255.0 && proj[1][1] < 0.5/255.0 && proj[2][2] < 0.5/255.0;
 }
 
-bool check_inventory_hand(vec3 light0) {
-	return light0.r > light0.g && light0.r > light0.b;
+bool check_inventory_hand(vec3 light0, vec3 normal) {
+	return light0.r > light0.g && light0.r > light0.b && !check_hand(normal);
 }
 
 bool check_middle_layer(vec4 color) {
