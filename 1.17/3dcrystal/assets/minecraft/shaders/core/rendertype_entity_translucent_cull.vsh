@@ -32,28 +32,40 @@ void main() {
 
 	vec4 col = texture(Sampler0, UV0);
 	
-	vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color) * texelFetch(Sampler2, UV2 / 16, 0);
+	float check_hand = float(abs(Normal) == 0.0); // is the crystal in the player's hand in firstperson?
+	float check_inventory = float(ProjMat[0][0] < 1.5/255.0 && ProjMat[1][1] < 0.5/255.0 && ProjMat[2][2] < 0.5/255.0); // is the crystal in a GUI?
+	float check_inventory_hand = float(Light0_Direction.r > Light0_Direction.g && Light0_Direction.r > Light0_Direction.b && check_hand == 0.0); // is this crystal in the player's hand in the GUI?
 	
-	mat4 wm = getWorldMat(Light0_Direction, Light1_Direction, Normal) * float(!(check_inventory(ProjMat) || check_hand(Normal))) // use world matrix unless...
-	        + translate(vec3(0.0)) * float(check_inventory(ProjMat) || check_hand(Normal)); // if in inventory or firstperson hand, then use identity matrix
+	vec2 d = col.ra - vec2(255.0, 63.0) / 255.0;
+	float check_crystal = float(dot(d, d) < EPSILON); // is the thing a crystal?
+	float e = col.g - 63.0/255.0;
+	float check_middle_layer = float(e*e < EPSILON); // middle layer of the crystal?
+	e = col.g - 127.0/255.0;
+	float check_inner_layer = float(e*e < EPSILON); // inner layer of the crystal?
+	
+	
+	mat4 wm = getWorldMat(Light0_Direction, Light1_Direction, Normal) * (1.0 - sign(check_inventory + check_hand)) // use world matrix unless...
+	        + translate(vec3(0.0)) * sign(check_inventory + check_hand); // if in inventory or firstperson hand, then use identity matrix
 	
 	float rt = GameTime * 1000.0; // rotation value
 	float model_scale = 0.125 // base scale
-					  + 0.125 * float(check_inventory(ProjMat) || check_hand(Normal)) // larger if in inventory or firstperson hand
-					  + 0.0625*float(check_inventory(ProjMat)) // even larger if in inventory
-					  + 2.25*float(check_inventory(ProjMat) && check_inventory_hand(Light0_Direction, Normal)); // even larger if in inventory and held by the character model
+					  + 0.125 * sign(check_inventory + check_hand) // larger if in inventory or firstperson hand
+					  + 0.0625 * check_inventory // even larger if in inventory
+					  + 2.25 * check_inventory * check_inventory_hand; // even larger if in inventory and held by the character model
 	float translation_scale = model_scale * 2.0 //
-	                        * (-2.0 * float(check_inventory_hand(Light0_Direction, Normal)) + 1.0); // offset the model if held by the character model in the inventory
+	                        * (-2.0 * check_inventory_hand + 1.0); // offset the model if held by the character model in the inventory
+							// * sign(check_hand + check_inventory + check_inventory_hand + float(!isNether(Light0_Direction, Light1_Direction))); // dont translate if in the nether and in the world
 
 	mat4 standard_rotation = rotate(vec3(wm[1].xyz), rt) * rotate(vec3(wm[2].xyz), 35.0*PI/180.0) * rotate(vec3(wm[0].xyz), PI/4.0);
-	mat4 rotation = (standard_rotation * float(check_inner_layer(col)) + translate(vec3(0.0)) * float(!check_inner_layer(col))) // inner layer
-				  * (standard_rotation * float(check_middle_layer(col) || check_inner_layer(col)) + translate(vec3(0.0)) * float(!(check_middle_layer(col) || check_inner_layer(col)))) // middle layer
+	mat4 rotation = (standard_rotation * check_inner_layer + translate(vec3(0.0)) * -(check_inner_layer - 1.0)) // inner layer
+				  * (standard_rotation * sign(check_middle_layer + check_inner_layer) + translate(vec3(0.0)) * (1.0 - sign(check_middle_layer + check_inner_layer))) // middle layer
 				  * standard_rotation; // standard crystal rotation
-	model_scale *= (1.0 - 0.125 * float(check_middle_layer(col) || check_inner_layer(col))) * (1.0 - 0.125 * float(check_inner_layer(col)));
+	model_scale *= (1.0 - 0.125 * sign(check_middle_layer + check_inner_layer)) * (1.0 - 0.125 * check_inner_layer);
 	
-	vec4 a = translate(Position) * translate(wm[1].xyz * getY(GameTime) * translation_scale) * rotation * wm * vec4(-model_scale*(get_offset(col)), 1.0) * float(check_crystal(col)) // crystal
-		   + vec4(Position, 1.0) * float(!check_crystal(col)); // not crystal
-	vertexColor = texelFetch(Sampler2, UV2 / 16, 0);
+	vec4 a = translate(Position) * translate(wm[1].xyz * getY(GameTime) * translation_scale) * rotation * wm * vec4(-model_scale*(get_offset(col)), 1.0) * check_crystal // crystal
+		   + vec4(Position, 1.0) * -(check_crystal - 1.0); // not crystal
+	vertexColor = texelFetch(Sampler2, UV2 / 16, 0) // light level
+				* (minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color) * -(check_crystal - 1.0) + vec4(1.0) * check_crystal); // shade only if not crystal
 	
     gl_Position = ProjMat * ModelViewMat * a;
 

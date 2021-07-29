@@ -24,33 +24,6 @@ mat4 getWorldMat(vec3 light0, vec3 light1, vec3 normal) {
 				0.0, 0.0, 0.0, 1.0);
 }
 
-bool check_crystal(vec4 color) {
-	vec2 d = color.ra - vec2(255.0, 63.0) / 255.0;
-	return dot(d, d) < EPSILON;
-}
-
-bool check_hand(vec3 normal) {
-	return abs(normal) == 0.0;
-}
-
-bool check_inventory(mat4 proj) {
-	return proj[0][0] < 1.5/255.0 && proj[1][1] < 0.5/255.0 && proj[2][2] < 0.5/255.0;
-}
-
-bool check_inventory_hand(vec3 light0, vec3 normal) {
-	return light0.r > light0.g && light0.r > light0.b && !check_hand(normal);
-}
-
-bool check_middle_layer(vec4 color) {
-	float d = color.g - 63.0/255.0;
-	return d*d < EPSILON;
-}
-
-bool check_inner_layer(vec4 color) {
-	float d = color.g - 127.0/255.0;
-	return d*d < EPSILON;
-}
-
 vec3 get_offset(vec4 color) {
 	float a = floor(color.b * 7.95);
 	return (vec3(mod(a, 2.0), float(a - 4.0 * float(a >= 4.0) >= 2.0), float(a >= 4.0)) - 0.5) * 2.0;
