@@ -1,0 +1,12 @@
+{
+	"pack":
+	{
+		"pack_format": 7,
+		"description": 
+		[
+			{ "text": "Aid for hatlayer hunting.\n", "color": "#bf003f" },
+			{ "text": "Red", "color": "#ff0000" }, { "text": " -> Near | ", "color": "#7f7f7f" },
+			{ "text": "Green", "color": "#00ff00" }, { "text": " -> Far.", "color": "#7f7f7f" }
+		]
+	}
+}
