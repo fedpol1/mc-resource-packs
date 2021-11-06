@@ -20,9 +20,9 @@ out vec4 fragColor;
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0);
-	float check = float(abs(color.a - 196.0/255.0) < 0.004);
-	vec4 tint = check * vertexColorNoTint + (1.0 - check) * vertexColor;
-	color.a = check * 1.0 + (1.0 - check) * color.a;
+	float check_tint = float(abs(color.a - 196.0/255.0) < 0.004); // does this part of the tinted texture need to be not tinted?
+	vec4 tint = check_tint * vertexColorNoTint + (1.0 - check_tint) * vertexColor;
+	color.a = check_tint * 1.0 + (1.0 - check_tint) * color.a;
 	color *= tint * ColorModulator;
     if (color.a < 0.1) {
         discard;
