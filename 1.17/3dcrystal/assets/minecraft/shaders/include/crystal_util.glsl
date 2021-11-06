@@ -5,7 +5,7 @@
 #define LIGHT1_DIRECTION vec3(-0.2, 1.0, 0.7) // Default light 1 direction everywhere except in nether and inventory
 
 bool isNether(vec3 light0, vec3 light1) {
-    return abs(light0) == abs(light1);
+    return light0 == -light1;
 }
 
 mat4 getWorldMat(vec3 light0, vec3 light1, vec3 normal) {
