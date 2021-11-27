@@ -1,0 +1,10 @@
+{
+	"pack":
+	{
+		"pack_format": 7,
+		"description": 
+		[
+			{ "text": "Find players.\n", "color": "#bf003f" }
+		]
+	}
+}
