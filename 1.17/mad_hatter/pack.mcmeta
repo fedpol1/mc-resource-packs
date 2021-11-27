@@ -5,8 +5,9 @@
 		"description": 
 		[
 			{ "text": "Aid for hatlayer hunting.\n", "color": "#bf003f" },
-			{ "text": "Red", "color": "#ff0000" }, { "text": " -> Near | ", "color": "#7f7f7f" },
-			{ "text": "Green", "color": "#00ff00" }, { "text": " -> Far.", "color": "#7f7f7f" }
+			{ "text": "Far", "color": "#00bf00" }, { "text": " | ", "color": "#7f7f7f" },
+			{ "text": "Near", "color": "#ff7f00" }, { "text": " + ", "color": "#7f7f7f" },
+			{ "text": "Hat", "color": "#ff0000" }
 		]
 	}
 }
