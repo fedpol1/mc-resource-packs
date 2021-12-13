@@ -1,0 +1,52 @@
+#version 150
+
+#define EPSILON 0.004
+#define LIGHT0_DIRECTION vec3(0.2, 1.0, -0.7) // Default light 0 direction everywhere except in inventory
+#define LIGHT1_DIRECTION vec3(-0.2, 1.0, 0.7) // Default light 1 direction everywhere except in nether and inventory
+
+bool parallel(vec3 v1, vec3 v2) {
+    return v1 == -v2 || v1 == v2;
+}
+
+mat4 getWorldMat(vec3 light0, vec3 light1, vec3 normal, mat3 imat) {
+	bool m = parallel(light0, normal);
+	bool n = parallel(light0, light1); // nether
+	
+	vec3 b = light1 * float(!n) // if not nether, then use light1
+		   + normal * float(!m && n) // otherwise use normal, unless it is parallel
+		   + vec3(1.0) * float((m && n) || (!n && normal == vec3(0.0))); // edge case if normal is 0 vector or both are parallel
+		   
+	vec3 B = imat * b;
+	
+    mat3 V = mat3(normalize(LIGHT0_DIRECTION), normalize(B), normalize(cross(LIGHT0_DIRECTION, B)));
+    mat3 W = mat3(normalize(light0), normalize(b), normalize(cross(light0, b)));
+	mat3 wm = W * inverse(V);
+	return mat4(wm[0].xyz, 0.0, 
+				wm[1].xyz, 0.0, 
+				wm[2].xyz, 0.0, 
+				0.0, 0.0, 0.0, 1.0);
+}
+
+vec3 get_offset(vec4 color) {
+	float a = floor(color.b * 7.95);
+	return (vec3(mod(a, 2.0), float(a - 4.0 * float(a >= 4.0) >= 2.0), float(a >= 4.0)) - 0.5) * 2.0;
+}
+
+float getY(float GameTime) {
+    float f3 = sin(GameTime * 4800.0) / 2.0 + 0.5;
+    return (f3 * f3 + f3) * 0.4 - 0.4;
+}
+
+mat4 translate(vec3 t) {
+	return mat4(1.0,0.0,0.0,0.0,
+				0.0,1.0,0.0,0.0,
+				0.0,0.0,1.0,0.0,
+				t.x,t.y,t.z,1.0);
+}
+
+mat4 rotate(vec3 u, float rt) { // axis, theta
+	return mat4(cos(rt)+u.x*u.x*(1.0-cos(rt)), u.x*u.y*(1.0-cos(rt))+u.z*sin(rt), u.x*u.z*(1.0-cos(rt))-u.y*sin(rt), 0.0,
+		u.x*u.y*(1.0-cos(rt))-u.z*sin(rt), cos(rt)+u.y*u.y*(1.0-cos(rt)), u.y*u.z*(1.0-cos(rt))+u.x*sin(rt), 0.0,
+		u.x*u.z*(1.0-cos(rt))+u.y*sin(rt), u.y*u.z*(1.0-cos(rt))-u.x*sin(rt), cos(rt)+u.z*u.z*(1.0-cos(rt)), 0.0,
+	    0.0, 0.0, 0.0, 1.0);
+}
