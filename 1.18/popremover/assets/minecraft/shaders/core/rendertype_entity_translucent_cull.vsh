@@ -21,18 +21,21 @@ uniform vec3 Light1_Direction;
 
 out float vertexDistance;
 out vec4 vertexColor;
-out vec3 pos;
 out vec2 texCoord0;
 out vec2 texCoord1;
 out vec2 texCoord2;
 out vec4 normal;
+out float check_pop;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 
+	bool check_inventory = ModelViewMat[3].r > 2.0 && ModelViewMat[3].g > 2.0; // is the crystal in a GUI?
+	bool check_hand_world = ProjMat[1].g > 0.5;
+	check_pop = float(!check_inventory && !check_hand_world);
+
     vertexDistance = cylindrical_distance(ModelViewMat, IViewRotMat * Position);
     vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color) * texelFetch(Sampler2, UV2 / 16, 0);
-	pos = Position;
     texCoord0 = UV0;
     texCoord1 = UV1;
     texCoord2 = UV2;
