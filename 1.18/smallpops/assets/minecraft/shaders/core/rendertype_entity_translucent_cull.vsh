@@ -29,7 +29,7 @@ out vec4 normal;
 void main() {
 
 	bool check_inventory = ModelViewMat[3].r > 2.0 && ModelViewMat[3].g > 2.0; // is the totem in a GUI?
-	bool check_hand_world = ProjMat[1].g > 0.5;
+	bool check_hand_world = ProjMat[1].g > 0.0;
 	float check_pop = float(!check_inventory && !check_hand_world);
 
 	mat4 transform = mat4(
