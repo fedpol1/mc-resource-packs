@@ -8,23 +8,16 @@ bool parallel(vec3 v1, vec3 v2) {
     return v1 == -v2 || v1 == v2;
 }
 
-mat4 getWorldMat(vec3 light0, vec3 light1, vec3 normal, mat3 imat) {
-	bool m = parallel(light0, normal);
-	bool n = parallel(light0, light1); // nether
-	
-	vec3 b = light1 * float(!n) // if not nether, then use light1
-		   + normal * float(!m && n) // otherwise use normal, unless it is parallel
-		   + vec3(1.0) * float((m && n) || (!n && normal == vec3(0.0))); // edge case if normal is 0 vector or both are parallel
-		   
+mat4 getWorldMat(mat3 imat) {
+	vec3 a = vec3(1.0, 0.0, 0.0); // normalized
+	vec3 b = vec3(0.0, 0.0, 1.0); // normalized
+	vec3 A = imat * a;
 	vec3 B = imat * b;
 	
-    mat3 V = mat3(normalize(LIGHT0_DIRECTION), normalize(B), normalize(cross(LIGHT0_DIRECTION, B)));
-    mat3 W = mat3(normalize(light0), normalize(b), normalize(cross(light0, b)));
+    mat3 V = mat3(normalize(A), normalize(B), normalize(cross(A, B)));
+    mat3 W = mat3(a, b, vec3(0.0, -1.0, 0.0)); // normalize(cross(a, b)) == vec3(0.0, -1.0, 0.0)
 	mat3 wm = W * inverse(V);
-	return mat4(wm[0].xyz, 0.0, 
-				wm[1].xyz, 0.0, 
-				wm[2].xyz, 0.0, 
-				0.0, 0.0, 0.0, 1.0);
+	return mat4(wm);
 }
 
 vec3 get_offset(vec4 color) {

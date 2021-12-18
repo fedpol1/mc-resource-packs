@@ -47,17 +47,16 @@ void main() {
 	float check_inner_layer = float(e*e < EPSILON); // inner layer of the crystal?
 	
 	
-	mat4 wm = getWorldMat(Light0_Direction, Light1_Direction, Normal, IViewRotMat) * (1.0 - sign(check_inventory + check_hand)) // use world matrix unless...
+	mat4 wm = getWorldMat(IViewRotMat) * (1.0 - sign(check_inventory + check_hand)) // use world matrix unless...
 	        + translate(vec3(0.0)) * sign(check_inventory + check_hand); // if in inventory or firstperson hand, then use identity matrix
 	
 	float rt = GameTime * 1000.0; // rotation value
 	float model_scale = 0.125 // base scale
 					  + 0.125 * sign(check_inventory + check_hand) // larger if in inventory or firstperson hand
 					  + 0.0625 * check_inventory // even larger if in inventory
-					  + 2.25 * check_inventory * check_inventory_hand; // even larger if in inventory and held by the character model
+					  + 3.6875 * check_inventory * check_inventory_hand; // even larger if in inventory and held by the character model
 	float translation_scale = model_scale * 2.0 //
 	                        * (-2.0 * check_inventory_hand + 1.0); // offset the model if held by the character model in the inventory
-							// * sign(check_hand + check_inventory + check_inventory_hand + float(!isNether(Light0_Direction, Light1_Direction))); // dont translate if in the nether and in the world
 
 	mat4 standard_rotation = rotate(vec3(wm[1].xyz), rt) * rotate(vec3(wm[2].xyz), 35.0*PI/180.0) * rotate(vec3(wm[0].xyz), PI/4.0);
 	mat4 rotation = (standard_rotation * check_inner_layer + translate(vec3(0.0)) * -(check_inner_layer - 1.0)) // inner layer
