@@ -18,6 +18,7 @@ uniform sampler2D Sampler2;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
+uniform mat4 IdentityMat;
 uniform mat3 IViewRotMat;
 
 uniform vec3 Light0_Direction;
@@ -47,22 +48,22 @@ void main() {
 	float check_inner_layer = float(e*e < EPSILON); // inner layer of the crystal?
 	
 	
-	mat4 wm = getWorldMat(IViewRotMat) * (1.0 - sign(check_inventory + check_hand)) // use world matrix unless...
-	        + translate(vec3(0.0)) * sign(check_inventory + check_hand); // if in inventory or firstperson hand, then use identity matrix
+	mat4 wm = getWorldMat(IViewRotMat) * (1.0 - min(1.0, check_inventory + check_hand)) // use world matrix unless...
+	        + IdentityMat * min(1.0, check_inventory + check_hand); // if in inventory or firstperson hand, then use identity matrix
 	
 	float rt = GameTime * 1000.0; // rotation value
 	float model_scale = 0.125 // base scale
-					  + 0.125 * sign(check_inventory + check_hand) // larger if in inventory or firstperson hand
+					  + 0.125 * min(1.0, check_inventory + check_hand) // larger if in inventory or firstperson hand
 					  + 0.0625 * check_inventory // even larger if in inventory
 					  + 3.6875 * check_inventory * check_inventory_hand; // even larger if in inventory and held by the character model
 	float translation_scale = model_scale * 2.0 //
 	                        * (-2.0 * check_inventory_hand + 1.0); // offset the model if held by the character model in the inventory
 
 	mat4 standard_rotation = rotate(vec3(wm[1].xyz), rt) * rotate(vec3(wm[2].xyz), 35.0*PI/180.0) * rotate(vec3(wm[0].xyz), PI/4.0);
-	mat4 rotation = (standard_rotation * check_inner_layer + translate(vec3(0.0)) * -(check_inner_layer - 1.0)) // inner layer
-				  * (standard_rotation * sign(check_middle_layer + check_inner_layer) + translate(vec3(0.0)) * (1.0 - sign(check_middle_layer + check_inner_layer))) // middle layer
+	mat4 rotation = (standard_rotation * check_inner_layer + IdentityMat * (1.0 - check_inner_layer)) // inner layer
+				  * (standard_rotation * min(1.0, check_middle_layer + check_inner_layer) + IdentityMat * (1.0 - min(1.0, check_middle_layer + check_inner_layer))) // middle layer
 				  * standard_rotation; // standard crystal rotation
-	model_scale *= (1.0 - 0.125 * sign(check_middle_layer + check_inner_layer)) * (1.0 - 0.125 * check_inner_layer);
+	model_scale *= (1.0 - 0.125 * min(1.0, check_middle_layer + check_inner_layer)) * (1.0 - 0.125 * check_inner_layer);
 	
 	vec4 a = translate(Position) * translate(wm[1].xyz * getY(GameTime) * translation_scale) * rotation * wm * vec4(-model_scale*(get_offset(col)), 1.0) * check_crystal // crystal
 		   + vec4(Position, 1.0) * -(check_crystal - 1.0); // not crystal
