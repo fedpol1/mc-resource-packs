@@ -8,18 +8,6 @@ bool parallel(vec3 v1, vec3 v2) {
     return v1 == -v2 || v1 == v2;
 }
 
-mat4 getWorldMat(mat3 imat) {
-	vec3 a = vec3(1.0, 0.0, 0.0); // normalized
-	vec3 b = vec3(0.0, 0.0, 1.0); // normalized
-	vec3 A = imat * a;
-	vec3 B = imat * b;
-	
-    mat3 V = mat3(normalize(A), normalize(B), normalize(cross(A, B)));
-    mat3 W = mat3(a, b, vec3(0.0, -1.0, 0.0)); // normalize(cross(a, b)) == vec3(0.0, -1.0, 0.0)
-	mat3 wm = W * inverse(V);
-	return mat4(wm);
-}
-
 vec3 get_offset(vec4 color) {
 	float a = floor(color.b * 7.95);
 	return (vec3(mod(a, 2.0), float(a - 4.0 * float(a >= 4.0) >= 2.0), float(a >= 4.0)) - 0.5) * 2.0;

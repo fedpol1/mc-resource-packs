@@ -48,7 +48,7 @@ void main() {
 	float check_inner_layer = float(e*e < EPSILON); // inner layer of the crystal?
 	
 	
-	mat4 wm = getWorldMat(IViewRotMat) * (1.0 - min(1.0, check_inventory + check_hand)) // use world matrix unless...
+	mat4 wm = mat4(inverse(IViewRotMat)) * (1.0 - min(1.0, check_inventory + check_hand)) // use world matrix unless...
 	        + IdentityMat * min(1.0, check_inventory + check_hand); // if in inventory or firstperson hand, then use identity matrix
 	
 	float rt = GameTime * 1000.0; // rotation value
