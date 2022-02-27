@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/readjust_cube_all",
+  "textures": {
+    "all": "minecraft:block/raw_gold_block_marked",
+    "particle": "minecraft:block/raw_gold_block"
+  }
+}

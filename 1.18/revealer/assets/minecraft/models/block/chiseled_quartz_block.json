@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/readjust_cube_column",
+  "textures": {
+    "end": "minecraft:block/chiseled_quartz_block_top_marked",
+    "side": "minecraft:block/chiseled_quartz_block_marked",
+    "particle": "minecraft:block/chiseled_quartz_block"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/readjust_cross",
+  "textures": {
+    "cross": "minecraft:block/medium_amethyst_bud_marked",
+    "particle": "minecraft:block/medium_amethyst_bud"
+  }
+}
