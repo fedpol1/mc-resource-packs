@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/readjust_template_piston",
+  "textures": {
+    "platform": "minecraft:block/piston_top_marked",
+    "bottom": "minecraft:block/piston_bottom_marked",
+    "side": "minecraft:block/piston_side_marked",
+    "particle": "minecraft:block/piston_side"
+  }
+}

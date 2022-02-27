@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/readjust_template_torch_wall",
+  "textures": {
+    "torch": "minecraft:block/redstone_torch_off_marked",
+    "particle": "minecraft:block/redstone_torch_off"
+  }
+}

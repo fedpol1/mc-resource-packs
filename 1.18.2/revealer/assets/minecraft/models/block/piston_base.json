@@ -1,0 +1,9 @@
+{
+    "parent": "block/piston_extended",
+    "textures": {
+        "bottom": "block/piston_bottom_marked",
+        "side": "block/piston_side_marked",
+        "inside": "block/piston_inner_marked",
+        "particle": "block/piston_side"
+    }
+}

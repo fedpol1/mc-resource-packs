@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/readjust_cube_all",
+  "textures": {
+    "all": "minecraft:block/crying_obsidian_marked",
+    "particle": "minecraft:block/crying_obsidian"
+  }
+}
