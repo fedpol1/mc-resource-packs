@@ -1,0 +1,10 @@
+{
+   "pack":{
+      "pack_format": 8,
+      "description": 
+	  {
+	    "text": "Enchantment glint tweaks.",
+		"color": "#bf003f"
+	  }
+   }
+}
