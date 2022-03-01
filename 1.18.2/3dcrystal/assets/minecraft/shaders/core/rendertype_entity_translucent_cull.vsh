@@ -66,7 +66,8 @@ void main() {
 				  * standard_rotation; // standard crystal rotation
 	model_scale *= (1.0 - 0.125 * min(1.0, check_middle_layer + check_inner_layer)) * (1.0 - 0.125 * check_inner_layer);
 	
-	vec4 a = translate(Position) * translate(wm[1].xyz * getY(GameTime) * translation_scale) * rotation * wm * vec4(-model_scale*(get_offset(col)), 1.0) * check_crystal // crystal
+	vec4 a = translate(Position) * translate(wm[1].xyz * getY(GameTime) * (1.0 - check_inventory * (1.0 - check_inventory_hand)) * translation_scale) // dont bob in guis
+		   * rotation * wm * vec4(-model_scale*(get_offset(col)), 1.0) * check_crystal // crystal
 		   + vec4(Position, 1.0) * -(check_crystal - 1.0); // not crystal
 	vertexColor = texelFetch(Sampler2, UV2 / 16, 0) // light level
 				* (minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color) * (1.0 - check_crystal) + vec4(1.0) * check_crystal); // shade only if not crystal
