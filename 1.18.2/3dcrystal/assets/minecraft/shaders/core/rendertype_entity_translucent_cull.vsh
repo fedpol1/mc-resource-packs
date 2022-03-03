@@ -37,7 +37,7 @@ void main() {
 
 	vec4 col = texture(Sampler0, UV0);
 	
-	float check_hand = float(abs(Normal) == 0.0); // is the crystal in the player's hand in firstperson?
+	float check_hand = float(abs(Normal) == vec3(0.0)); // is the crystal in the player's hand in firstperson?
 	float check_inventory = float(ProjMat[0][0] < 1.5/255.0 && ProjMat[1][1] < 0.5/255.0 && ProjMat[2][2] < 0.5/255.0); // is the crystal in a GUI?
 	float check_inventory_hand = float(Light0_Direction.r > Light0_Direction.g && Light0_Direction.r > Light0_Direction.b && check_hand == 0.0); // is this crystal in the player's hand in the GUI?
 	
