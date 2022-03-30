@@ -1,8 +1,6 @@
 #version 150
 
 #define EPSILON 0.004
-#define LIGHT0_DIRECTION vec3(0.2, 1.0, -0.7) // Default light 0 direction everywhere except in inventory
-#define LIGHT1_DIRECTION vec3(-0.2, 1.0, 0.7) // Default light 1 direction everywhere except in nether and inventory
 
 vec3 get_offset(vec4 color) {
 	float a = floor(color.b * 7.95);
