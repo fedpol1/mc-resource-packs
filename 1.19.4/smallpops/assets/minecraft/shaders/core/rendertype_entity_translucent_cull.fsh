@@ -14,7 +14,6 @@ in vec4 vertexColor;
 in vec2 texCoord0;
 in vec2 texCoord1;
 in vec4 normal;
-in vec3 data;
 
 out vec4 fragColor;
 
@@ -24,5 +23,4 @@ void main() {
         discard;
     }
     fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, FogColor);
-    //fragColor = vec4(data, 1.0);
 }

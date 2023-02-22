@@ -27,13 +27,11 @@ out vec2 texCoord1;
 out vec2 texCoord2;
 out vec4 normal;
 
-out vec3 data;
-
 void main() {
 
 	bool check_hand_world = ProjMat[1].g > 0.0;
 	float check_pop = float(Light0_Direction.g > Light0_Direction.b && !check_hand_world);
-	bool check_inventory = check_pop == 0.0 && !check_hand_world; // is the totem in a GUI?
+	//bool check_inventory = check_pop == 0.0 && !check_hand_world; // is the totem in a GUI?
 
 	mat4 transform = mat4(
 		1.0, 0.0, 0.0, 0.0,
@@ -54,5 +52,4 @@ void main() {
     texCoord1 = UV1;
     texCoord2 = UV2;
     normal = ProjMat * ModelViewMat * vec4(Normal, 0.0);
-	data = vec3(float(check_hand_world), float(check_inventory), check_pop);
 }
