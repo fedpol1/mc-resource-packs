@@ -1,0 +1,11 @@
+{
+	"pack":
+	{
+		"pack_format": 13,
+		"description":
+		{
+			"text": "Reduces size of totem pop animation.",
+			"color": "#bf003f"
+		}
+	}
+}
