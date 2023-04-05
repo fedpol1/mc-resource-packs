@@ -29,9 +29,10 @@ out vec4 normal;
 
 void main() {
 
+	bool check_inventory = ModelViewMat[3].r > 2.0 && ModelViewMat[3].g > 2.0; // is the totem in a GUI?
 	bool check_hand_world = ProjMat[1].g > 0.0;
-	float check_pop = float(Light0_Direction.g > Light0_Direction.b && !check_hand_world);
-	//bool check_inventory = check_pop == 0.0 && !check_hand_world; // is the totem in a GUI?
+	bool check_inventory_hand = Light0_Direction.r > Light0_Direction.g && Light0_Direction.r > Light0_Direction.b; // is this crystal in the player's hand in the GUI?
+	float check_pop = float(!check_inventory && !check_hand_world && !check_inventory_hand);
 
 	mat4 transform = mat4(
 		1.0, 0.0, 0.0, 0.0,
