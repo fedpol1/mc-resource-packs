@@ -52,8 +52,8 @@ void main() {
 	float rt = GameTime * 1000.0; // rotation value
 	float model_scale = 0.125 // base scale
 					  + 0.125 * min(1.0, check_inventory + check_hand) // larger if in inventory or firstperson hand
-					  + 4.75 * check_inventory // even larger if in inventory
-					  - 1.0 * check_inventory * check_inventory_hand; // slightly smaller if in inventory and held by the character model since inventory scales it too big
+					  + 0.0625 * check_inventory // even larger if in inventory
+					  + 3.6875 * check_inventory * check_inventory_hand; // slightly smaller if in inventory and held by the character model since inventory scales it too big
 	float translation_scale = model_scale * 2.0 //
 	                        * (-2.0 * check_inventory_hand + 1.0); // offset the model if held by the character model in the inventory
 
@@ -61,7 +61,7 @@ void main() {
 	mat4 rotation = (standard_rotation * check_inner_layer + IdentityMat * (1.0 - check_inner_layer)) // inner layer
 				  * (standard_rotation * min(1.0, check_middle_layer + check_inner_layer) + IdentityMat * (1.0 - min(1.0, check_middle_layer + check_inner_layer))) // middle layer
 				  * standard_rotation; // standard crystal rotation
-	model_scale *= -1.0 + 2.0 * check_inventory; // flip crystal back to normal if its not in a ui since for some reason they start inside-out
+	model_scale *= -1.0; // flip crystal back to normal since for some reason they start inside-out
 	model_scale *= (1.0 - 0.125 * min(1.0, check_middle_layer + check_inner_layer)) * (1.0 - 0.125 * check_inner_layer); // scale innards of crystal
 	
 	vec4 a = translate(Position) * translate(wm[1].xyz * getY(GameTime) * (1.0 - check_inventory * (1.0 - check_inventory_hand)) * translation_scale) // dont bob in guis
