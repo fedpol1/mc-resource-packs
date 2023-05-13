@@ -17,6 +17,8 @@ out float fcheck_hotbar;
 out float[6] yaw_digits;
 out float[5] pitch_digits;
 out float[6] fog_digits;
+out float yaw_direction;
+out float pitch_direction;
 
 bool check_pixel(sampler2D sampler, vec2 coord, vec4 col)
 {
@@ -57,7 +59,7 @@ void main() {
 
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 	float gui_scale = round(abs(gl_Position.x * ScreenSize.x) / 182.0);
-	gl_Position.x += 39.0/ScreenSize.x * 2.0 * gui_scale * float(check_hotbar && (gl_VertexID == 2 || gl_VertexID == 3));
+	gl_Position.x += 47.0/ScreenSize.x * 2.0 * gui_scale * float(check_hotbar && (gl_VertexID == 2 || gl_VertexID == 3));
 
 	int yaw_magnitude = int(100.0 * acos(clamp(-IViewRotMat[0][0], -1.0, 1.0)) * 180.0 / 3.14159265358979);
 	float pitch = asin(clamp(IViewRotMat[2][1], -1.0, 1.0)) * 180.0 / 3.14159265358979;
@@ -94,8 +96,13 @@ void main() {
 	fog_digits[0] -= 1.0 * float(fog_digits[0] == -1.0 && fog_digits[1] == -1.0);
 	fog_digits[1] -= 1.0 * float(fog_digits[1] == -1.0 && fog_digits[2] == -1.0);
 
+	float prelim_yaw_direction = float(int(0.01 * float(yaw_magnitude + 2250) / 45.0)) * (float(sign(IViewRotMat[0][2]) < 0.5) * 2.0 - 1.0);
+	yaw_direction = prelim_yaw_direction + 8.0 * float(prelim_yaw_direction < 0.0);
+
+	pitch_direction = sign(pitch) * (1.0 + float(pitch_magnitude >= 3000) + float(pitch_magnitude > 7500)) + 3.0;
+
     texCoord0 = UV0;
-    texCoord0.x += 39.0 / size.x * float(check_hotbar && (gl_VertexID == 2 || gl_VertexID == 3));
+    texCoord0.x += 47.0 / size.x * float(check_hotbar && (gl_VertexID == 2 || gl_VertexID == 3));
 			  
 	fcheck_hotbar = float(check_hotbar);
 }
