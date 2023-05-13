@@ -54,7 +54,7 @@ void main() {
 			   + (vec2(15.0, 200.0)/size + step * pitch_direction) * float(check_bounds(texCoord0 * size, vec2(222.0, 8.0), vec2(6.0, 6.0)))
 			   ) * check_field;
 			   
-	float fog_bounds = float(check_bounds(texCoord0 * size, vec2(222.0, 15.0), vec2(6.0, 6.0)));
+	float fog_bounds = float(check_bounds(texCoord0 * size, vec2(222.0, 15.0), vec2(6.0, 6.0))) * fcheck_hotbar;
 			   
     vec4 color = texture(Sampler0, texCoord0_altered) * (1.0 - check_field * float(texCoord0 == texCoord0_altered));
 	color += vec4(vec3(0.25), 0.5) * check_field;
