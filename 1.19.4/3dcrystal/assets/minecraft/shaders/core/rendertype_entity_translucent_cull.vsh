@@ -64,8 +64,6 @@ mat4 rotate(vec3 u, float rt) { // axis, theta
 }
 
 void main() {
-
-	vec4 col = texture(Sampler0, UV0);
 	
 	float check_inventory = float(ProjMat[0][0] < 1.5/255.0 && ProjMat[1][1] < 0.5/255.0 && ProjMat[2][2] < 0.5/255.0); // is the crystal in a GUI?
 	float check_hand = float(FogStart >= 3.402823e+38 && check_inventory == 0.0); // is the crystal in the player's hand in firstperson?
