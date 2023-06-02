@@ -1,7 +1,6 @@
 #version 150
 
 #moj_import <fog.glsl>
-#moj_import <color_util.glsl>
 
 uniform sampler2D Sampler0;
 
@@ -17,6 +16,15 @@ in float vertexDistance;
 in vec2 texCoord0;
 
 out vec4 fragColor;
+
+// used for hue rotation, in which case axis would be vec3(1.0), normalized
+mat4 rotate(vec3 u, float rt) { // axis, theta
+	return mat4(
+		cos(rt)+u.x*u.x*(1.0-cos(rt)), 		u.x*u.y*(1.0-cos(rt))+u.z*sin(rt), 		u.x*u.z*(1.0-cos(rt))-u.y*sin(rt), 	0.0,
+		u.x*u.y*(1.0-cos(rt))-u.z*sin(rt), 	cos(rt)+u.y*u.y*(1.0-cos(rt)), 			u.y*u.z*(1.0-cos(rt))+u.x*sin(rt), 	0.0,
+		u.x*u.z*(1.0-cos(rt))+u.y*sin(rt), 	u.y*u.z*(1.0-cos(rt))-u.x*sin(rt), 		cos(rt)+u.z*u.z*(1.0-cos(rt)), 		0.0,
+	    0.0, 								0.0, 									0.0, 								1.0);
+}
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0);// * ColorModulator;
