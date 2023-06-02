@@ -4,13 +4,11 @@
 
 uniform sampler2D Sampler0;
 
-uniform vec4 ColorModulator;
 uniform float GlintAlpha;
 uniform float FogStart;
 uniform float FogEnd;
 uniform vec4 FogColor;
 uniform mat4 TextureMat;
-uniform float AppliesToItems;
 
 in float vertexDistance;
 in vec2 texCoord0;
