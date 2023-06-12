@@ -26,26 +26,39 @@ uniform float GameTime;
 uniform float FogStart;
 uniform int FogShape;
 
+uniform vec2 TextureSize;
 uniform ivec3 Offsets;
 
 out float vertexDistance;
 out vec4 vertexColor;
 out vec2 texCoord0;
 
-vec3 get_offset(int vid) {
-	int mod = vid % 24;
+vec3 get_offset() {
+	int mod = gl_VertexID % 24;
 	float x = float((Offsets.x >> mod) & 1) * 2.0 - 1.0;
 	float y = float((Offsets.y >> mod) & 1) * 2.0 - 1.0;
 	float z = float((Offsets.z >> mod) & 1) * 2.0 - 1.0;
 	return vec3(x, y, z);
 }
 
-int get_layer(int vid) { // 0 outer, 1 middle, 2 inner
-	return (vid % 72) / 24;
+int get_layer() { // 0 outer, 1 middle, 2 inner
+	return (gl_VertexID % 72) / 24;
 }
 
-float getY(float time) {
-    float f3 = sin(time * 4800.0) / 2.0 + 0.5;
+vec2 get_uv(float is_crystal) {
+	int face = (gl_VertexID % 72) / 4;
+	int modface = face % 6;
+	vec2 offset = (TextureSize / vec2(8.0, 4.0)) / textureSize(Sampler0, 0);
+	vec2 new_uv = UV0;
+	new_uv.x = new_uv.x + is_crystal * float(modface < 2) * (modface + 1) * offset.x;
+	new_uv.x = new_uv.x + is_crystal * float(modface >= 2) * (modface - 2) * offset.x;
+	new_uv.y = new_uv.y + is_crystal * float(modface >= 2) * offset.y;
+	new_uv.x = new_uv.x + is_crystal * float(face >= 12) * 4.0 * offset.x;
+	return new_uv;
+}
+
+float getY() {
+    float f3 = sin(GameTime * 4800.0) / 2.0 + 0.5;
     return (f3 * f3 + f3) * 0.4 - 0.4;
 }
 
@@ -70,8 +83,8 @@ void main() {
 	float check_inventory_hand = float(Light0_Direction.r > Light0_Direction.g && Light0_Direction.r > Light0_Direction.b && check_hand == 0.0); // is this crystal in the player's hand in the GUI?
 	
 	float check_crystal = float(Normal == vec3(0.0)); // is the thing a crystal?
-	float check_middle_layer = float(get_layer(gl_VertexID) == 1); // middle layer of the crystal?
-	float check_inner_layer = float(get_layer(gl_VertexID) == 2); // inner layer of the crystal?
+	float check_middle_layer = float(get_layer() == 1); // middle layer of the crystal?
+	float check_inner_layer = float(get_layer() == 2); // inner layer of the crystal?
 	
 	
 	mat4 wm = mat4(inverse(IViewRotMat)) * (1.0 - min(1.0, check_inventory + check_hand)) // use world matrix unless...
@@ -92,8 +105,8 @@ void main() {
 	model_scale *= -1.0 + 2.0 * check_inventory * check_inventory_hand; // flip crystal back to normal if its not in a ui hand since for some reason they start inside-out
 	model_scale *= (1.0 - 0.125 * min(1.0, check_middle_layer + check_inner_layer)) * (1.0 - 0.125 * check_inner_layer); // scale innards of crystal
 	
-	vec4 a = translate(Position) * translate(wm[1].xyz * getY(GameTime) * (1.0 - check_inventory * (1.0 - check_inventory_hand)) * translation_scale) // dont bob in guis
-		   * rotation * wm * vec4(model_scale*(get_offset(gl_VertexID)), 1.0) * check_crystal // crystal
+	vec4 a = translate(Position) * translate(wm[1].xyz * getY() * (1.0 - check_inventory * (1.0 - check_inventory_hand)) * translation_scale) // dont bob in guis
+		   * rotation * wm * vec4(model_scale*(get_offset()), 1.0) * check_crystal // crystal
 		   + vec4(Position, 1.0) * (1.0 - check_crystal); // not crystal
 	vertexColor = texelFetch(Sampler2, UV2 / 16, 0) // light level
 				* (minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color) * (1.0 - check_crystal) + vec4(1.0) * check_crystal); // shade only if not crystal
@@ -101,5 +114,5 @@ void main() {
     gl_Position = ProjMat * ModelViewMat * a;
 
     vertexDistance = fog_distance(ModelViewMat, IViewRotMat * Position, FogShape);
-    texCoord0 = UV0;
+    texCoord0 = get_uv(check_crystal);
 }
