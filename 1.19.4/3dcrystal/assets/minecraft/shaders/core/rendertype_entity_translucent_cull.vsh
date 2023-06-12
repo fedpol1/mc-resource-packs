@@ -27,17 +27,27 @@ uniform float FogStart;
 uniform int FogShape;
 
 uniform vec2 TextureSize;
-uniform ivec3 Offsets;
+uniform ivec3 VertexOffsets;
+uniform ivec3 FaceNormals;
 
 out float vertexDistance;
 out vec4 vertexColor;
 out vec2 texCoord0;
+out vec3 n;
 
 vec3 get_offset() {
 	int mod = gl_VertexID % 24;
-	float x = float((Offsets.x >> mod) & 1) * 2.0 - 1.0;
-	float y = float((Offsets.y >> mod) & 1) * 2.0 - 1.0;
-	float z = float((Offsets.z >> mod) & 1) * 2.0 - 1.0;
+	float x = float((VertexOffsets.x >> mod) & 1) * 2.0 - 1.0;
+	float y = float((VertexOffsets.y >> mod) & 1) * 2.0 - 1.0;
+	float z = float((VertexOffsets.z >> mod) & 1) * 2.0 - 1.0;
+	return vec3(x, y, z);
+}
+
+vec3 get_normal() {
+	int face = ((gl_VertexID % 72) / 4) % 6;
+	float x = float((FaceNormals.x >> (face * 2)) & 3) - 1.0;
+	float y = float((FaceNormals.y >> (face * 2)) & 3) - 1.0;
+	float z = float((FaceNormals.z >> (face * 2)) & 3) - 1.0;
 	return vec3(x, y, z);
 }
 
@@ -78,9 +88,9 @@ mat4 rotate(vec3 u, float rt) { // axis, theta
 
 void main() {
 	
-	float check_inventory = float(ProjMat[0][0] < 1.5/255.0 && ProjMat[1][1] < 0.5/255.0 && ProjMat[2][2] < 0.5/255.0); // is the crystal in a GUI?
+	float check_inventory = float(ProjMat[3][2] == -2.0); // is the crystal in a GUI?
 	float check_hand = float(FogStart >= 3.402823e+38 && check_inventory == 0.0); // is the crystal in the player's hand in firstperson?
-	float check_inventory_hand = float(Light0_Direction.r > Light0_Direction.g && Light0_Direction.r > Light0_Direction.b && check_hand == 0.0); // is this crystal in the player's hand in the GUI?
+	float check_inventory_hand = float(check_inventory * float(Position.z < -150.0)); // is this crystal in the player's hand in the GUI?
 	
 	float check_crystal = float(Normal == vec3(0.0)); // is the thing a crystal?
 	float check_middle_layer = float(get_layer() == 1); // middle layer of the crystal?

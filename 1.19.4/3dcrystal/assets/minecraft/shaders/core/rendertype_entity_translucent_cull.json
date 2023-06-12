@@ -19,6 +19,7 @@
         { "name": "Sampler2" }
     ],
     "uniforms": [
+		{ "name": "TextureSize", "type": "float", "count": 2, "values": [ 128.0, 64.0 ] },
         { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
         { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
         { "name": "IdentityMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
@@ -31,7 +32,7 @@
         { "name": "FogColor", "type": "float", "count": 4, "values": [ 0.0, 0.0, 0.0, 0.0 ] },
         { "name": "FogShape", "type": "int", "count": 1, "values": [ 0 ] },
         { "name": "GameTime", "type": "float", "count": 1, "values": [ 0.0 ] },
-		{ "name": "TextureSize", "type": "float", "count": 2, "values": [ 128.0, 64.0 ] },
-		{ "name": "Offsets", "type": "int", "count": 3, "values": [ 3404556.0, 1022361.0, 9883440.0 ] }
+		{ "name": "VertexOffsets", "type": "int", "count": 3, "values": [ 3404556.0, 1022361.0, 9883440.0 ] },
+		{ "name": "FaceNormals", "type": "int", "count": 3, "values": [ 1425.0, 2133.0, 1380.0 ] }
     ]
 }
