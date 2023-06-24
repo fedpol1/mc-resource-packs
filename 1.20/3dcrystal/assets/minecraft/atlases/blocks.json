@@ -1,0 +1,9 @@
+{
+    "sources": [
+        {
+            "type": "single",
+            "resource": "minecraft:entity/end_crystal/end_crystal",
+            "sprite": "3dcrystal:end_crystal"
+        }
+    ]
+}
