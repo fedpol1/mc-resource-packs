@@ -26,13 +26,12 @@ out vec2 texCoord0;
 out vec2 texCoord1;
 out vec2 texCoord2;
 out vec4 normal;
-out vec3 data;
 
 void main() {
 
 	bool check_ui = FogStart >= 3.402823e+38;
 	bool check_hand_world = ProjMat[1].g > 0.0;
-	float check_pop = float(check_ui && !check_hand_world && Light0_Direction.g > Light0_Direction.b);
+	float check_pop = float(check_ui && !check_hand_world && Position.z < 100.0);
 
 	mat4 transform = mat4(
 		1.0, 0.0, 0.0, 0.0,
@@ -53,5 +52,4 @@ void main() {
     texCoord1 = UV1;
     texCoord2 = UV2;
     normal = ProjMat * ModelViewMat * vec4(Normal, 0.0);
-	data = vec3(float(check_hand_world));
 }
