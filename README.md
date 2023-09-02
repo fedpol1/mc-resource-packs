@@ -1,6 +1,6 @@
 # mc-resource-packs
 
-**The following versions of packs have been tested and work on the latest version of the game (currently 1.20.1):
+**The following versions of packs have been tested and work on the latest version of the game (currently 1.20.1):**
 - 3dcrystal 1.20
 - footfinder 1.20
 - spice 1.19.4
