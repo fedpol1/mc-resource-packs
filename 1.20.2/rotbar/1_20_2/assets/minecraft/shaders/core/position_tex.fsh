@@ -69,6 +69,5 @@ void main() {
     if (color.a == 0.0) {
         discard;
     }
-    //fragColor = vec4(hotbar_topright_position/size * 4.0, 0.0, 1.0) * ColorModulator;
     fragColor = color * ColorModulator;
 }

@@ -1,0 +1,10 @@
+{
+	"pack": {
+		"pack_format": 7,
+		"supported_formats": [7, 18],
+		"description": {
+			"text": "Item enlargener.",
+			"color": "#bf003f"
+		}
+	}
+}
