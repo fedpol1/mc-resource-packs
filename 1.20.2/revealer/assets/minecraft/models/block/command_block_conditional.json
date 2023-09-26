@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/readjust_template_command_block",
+  "textures": {
+    "front": "minecraft:block/command_block_front_marked",
+    "back": "minecraft:block/command_block_back_marked",
+    "side": "minecraft:block/command_block_conditional_marked",
+    "particle": "minecraft:block/command_block_conditional"
+  }
+}

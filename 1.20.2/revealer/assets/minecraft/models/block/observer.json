@@ -1,0 +1,23 @@
+{
+    "parent": "block/readjust",
+    "textures": {
+        "bottom": "block/observer_back_marked",
+        "side": "block/observer_side_marked",
+        "top": "block/observer_top_marked",
+        "front": "block/observer_front_marked",
+        "particle": "block/observer_front"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 8, 16 ], "texture": "#top" },
+                "up":    { "uv": [ 0, 16, 8, 0 ], "texture": "#top" },
+                "north": { "uv": [ 0, 0, 8, 16 ], "texture": "#front" },
+                "south": { "uv": [ 0, 0, 8, 16 ], "texture": "#bottom" },
+                "west":  { "uv": [ 0, 0, 8, 16 ], "texture": "#side" },
+                "east":  { "uv": [ 0, 0, 8, 16 ], "texture": "#side" }
+            }
+        }
+    ]
+}

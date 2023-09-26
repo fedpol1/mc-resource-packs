@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/readjust_cube_all",
+  "textures": {
+    "all": "minecraft:block/amethyst_block_marked",
+    "particle": "minecraft:block/amethyst_block"
+  }
+}

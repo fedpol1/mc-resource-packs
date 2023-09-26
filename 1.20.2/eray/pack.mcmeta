@@ -1,0 +1,10 @@
+{
+	"pack": {
+		"pack_format": 8,
+		"supported_formats": [8, 18],
+		"description": {
+			"text": "Entities.",
+			"color": "#7f7f7f"
+		}
+	}
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/readjust_cube_bottom_top",
+  "textures": {
+    "top": "minecraft:block/tnt_top_marked",
+    "bottom": "minecraft:block/tnt_bottom_marked",
+    "side": "minecraft:block/tnt_side_marked",
+    "particle": "minecraft:block/tnt_side"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/readjust_cube_all",
+  "textures": {
+    "all": "minecraft:block/netherite_block_marked"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/readjust_cube_all",
+  "textures": {
+    "all": "minecraft:block/diamond_ore_marked",
+    "particle": "minecraft:block/diamond_ore"
+  }
+}

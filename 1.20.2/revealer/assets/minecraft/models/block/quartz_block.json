@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/readjust_cube_column",
+  "textures": {
+    "end": "minecraft:block/quartz_block_top_marked",
+    "side": "minecraft:block/quartz_block_side_marked",
+    "particle": "minecraft:block/quartz_block_side"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/readjust_cube_bottom_top",
+  "textures": {
+    "top": "minecraft:block/respawn_anchor_top_marked",
+    "bottom": "minecraft:block/respawn_anchor_bottom_marked",
+    "side": "minecraft:block/respawn_anchor_side2_marked",
+    "particle": "minecraft:block/respawn_anchor_side2"
+  }
+}

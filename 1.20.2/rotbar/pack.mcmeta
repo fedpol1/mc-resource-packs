@@ -1,0 +1,19 @@
+{
+	"overlays": {
+		"entries": [
+			{
+				"formats": [18, 18],
+				"directory": "1_20_2"
+			}
+		]
+	},
+	"pack": {
+		"pack_format": 13,
+		"supported_formats": [13, 18],
+
+		"description": {
+			"text":	"Displays rotation info and FogEnd next to the hotbar.",
+			"color":"#bf003f"
+		}
+	}
+}

@@ -1,0 +1,11 @@
+{
+    "parent": "minecraft:block/readjust",
+	"textures": {
+		"down": "#all",
+		"up": "#all",
+		"north": "#all",
+		"south": "#all",
+		"west": "#all",
+		"east": "#all"
+	}
+}
