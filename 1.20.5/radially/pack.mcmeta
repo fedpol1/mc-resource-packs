@@ -1,0 +1,56 @@
+{
+	"overlays": {
+		"entries": [
+			{
+				"formats": [32, 32],
+				"directory": "1_20_5"
+			}
+		]
+	},
+	"pack": {
+		"pack_format": 8,
+		"supported_formats": [8, 32],
+		"description": [
+			{
+				"text": "Highlight blocks ", 
+				"color":"#bf003f"
+			},
+			{
+				"text": "r", 
+				"color":"#7f7f7f"
+			},
+			{
+				"text": " blocks away.\n", 
+				"color":"#bf003f"
+			},
+			{
+				"text": "r = ", 
+				"color":"#7f7f7f"
+			},
+			{
+				"text": "2", 
+				"color":"#ff00ff"
+			},
+			{
+				"text": "(", 
+				"color":"#00ffff"
+			},
+			{
+				"text": "FOV", 
+				"color":"#ff0000"
+			},
+			{
+				"text": " - ", 
+				"color":"#00ffff"
+			},
+			{
+				"text": "30", 
+				"color":"#ff00ff"
+			},
+			{
+				"text": ")", 
+				"color":"#00ffff"
+			}
+		]
+	}
+}
