@@ -1,7 +1,19 @@
 {
+	"overlays": {
+		"entries": [
+			{
+				"formats": [18, 22],
+				"directory": "1_20_2"
+			}
+			{
+				"formats": [23, 32],
+				"directory": "1_20_5"
+			}
+		]
+	},
 	"pack":	{
-		"pack_format": 8,
-		"supported_formats": [8, 22],
+		"pack_format": 32,
+		"supported_formats": [18, 32],
 		"description": {
 			"text": "Find players.", 
 			"color": "#bf003f"
