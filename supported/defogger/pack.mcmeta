@@ -6,14 +6,14 @@
 				"directory": "1_20_2"
 			},
 			{
-				"formats": [23, 32],
+				"formats": [23, 34],
 				"directory": "1_20_5"
 			}
 		]
 	},
 	"pack": {
-		"pack_format": 32,
-		"supported_formats": [18, 32],
+		"pack_format": 34,
+		"supported_formats": [18, 34],
 		"description": {
 			"text": "Defogger.",
 			"color": "#bf003f"
